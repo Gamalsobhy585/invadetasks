@@ -1,0 +1,82 @@
+:root {
+  --primary-purple: #800040;
+  --secondary-purple: #D1A3B4; 
+  --accent-pink: #FF80AB; 
+  --background-light-gray: #F1F1F1; 
+  --text-dark-gray: #333333; 
+}
+
+
+body {
+  background-color: var(--background-light-gray);
+  color: var(--text-dark-gray);
+}
+
+.loginbtn,.reg-button{
+  background-color: var(--primary-purple) ;
+  color: white;
+}
+.loginbtn:hover,.reg-button:hover{
+  background-color: #D1A3B4;
+  color: black;
+}
+
+.logreg-link{
+  color: var(--accent-pink);
+}
+.link{
+  color: var(--accent-pink);
+
+}
+nav{
+  background-color: var(--text-dark-gray);
+}
+.img-container {
+  height: 200px; 
+  overflow: hidden; 
+}
+.card-img-top {
+  height: 100%; 
+  width: 100%;
+  object-fit: cover; 
+  transition: transform 0.3s ease-in-out;
+}
+.card-img-top:hover {
+  transform: scale(1.1); 
+}
+
+
+tbody tr:nth-child(odd) {
+  background-color: var(--accent-pink);
+}
+tbody tr:nth-child(even) {
+  background-color: var(--secondary-purple);
+}
+  #table-header {
+  background-color: var(--primary-purple);
+}
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; 
+  text-align: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px 15px;
+  border-left: 1px solid #ddd !important; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+th:first-child, td:first-child {
+  border-left: none;
+}
