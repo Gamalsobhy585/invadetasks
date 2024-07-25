@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
     const [tasks, setTasks] = useState([]);
@@ -23,7 +22,7 @@ export default function Home() {
             const response = await axios.get(url);
             setTasks(response.data.data);
             setFilteredTasks(response.data.data);
-            setPaginationData(response.data.meta);
+            setPaginationData(response.data.meta.pagination);
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
@@ -82,56 +81,25 @@ export default function Home() {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:8000/api/tasks/${id}`);
+            toast.success('Task deleted successfully');
             fetchTasks();
-            toast(
-                <div>
-                    <span className='task-deleted' >Task deleted successfully</span>
-                    <button className='handle-restore' onClick={() => handleRestore(id)} >
-                        Restore
-                    </button>
-                </div>,
-                {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false, // Show the progress bar
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: false,
-                    style: {
-                        background: 'linear-gradient(to right, #ff5f6d, #ffc371)',
-                        color: 'white'
-                    }
-                }
-            );
         } catch (error) {
             console.error('Error deleting task:', error);
             toast.error('Error deleting task');
         }
     };
-    
+
     const handleRestore = async (id) => {
         try {
             await axios.post(`http://localhost:8000/api/tasks/${id}/restore`);
-            toast.success(
-                <div className='task-deleted'>Task restored successfully</div>,
-                {
-                    position: "bottom-right",
-                    autoClose: 2000, 
-                    hideProgressBar: false, 
-                    style: {
-                        background: 'linear-gradient(to right, #00b09b, #96c93d)',
-                        color: 'white'
-                    }
-                }
-            );
+            toast.success('Task restored successfully');
             fetchTasks();
         } catch (error) {
             console.error('Error restoring task:', error);
             toast.error('Error restoring task');
         }
     };
-
-    const handlePageChange = (url) => {
+      const handlePageChange = (url) => {
         fetchTasks(url);
     };
 
@@ -194,9 +162,11 @@ export default function Home() {
                                     <td>{task.due_date}</td>
                                     <td>{task.category ? task.category.name : 'No Category'}</td>
                                     <td>
-                                        <Link to={`/edit-task/${task.id}`} className="btn btn-warning me-2">
-                                            Edit
-                                        </Link>
+                                      
+                                    <Link to={`/edit-task/${task.id}`} className="btn btn-warning me-2">
+    Edit
+</Link>
+
                                         <button
                                             onClick={() => handleDelete(task.id)}
                                             className="btn btn-danger me-2"
@@ -215,11 +185,11 @@ export default function Home() {
                         </tbody>
                     </table>
                 </div>
-                <nav id='nav-paginataion' aria-label="Page nav-paginataion navigation">
+                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-center">
                         {paginationData && paginationData.prev_page_url && (
                             <li className="page-item">
-                                <button className="page-link me-5" onClick={() => handlePageChange(paginationData.prev_page_url)}>
+                                <button className="page-link" onClick={() => handlePageChange(paginationData.prev_page_url)}>
                                     Previous
                                 </button>
                             </li>
@@ -233,6 +203,7 @@ export default function Home() {
                         )}
                     </ul>
                 </nav>
+
             </div>
         </>
     );

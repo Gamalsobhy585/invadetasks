@@ -4,18 +4,17 @@ import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import Layout from './components/Layout/Layout';
 import Home from './components/Home/Home';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CreateTask from './components/CreateTask/CreateTask';
 import EditTask from './components/EditTask/EditTask';
-import TaskDetails from './components/TaskDetails/TaskDetails';
 import CategoryList from './components/CategoryList/CategoryList.jsx';
-// import NotFound from './components/NotFound/NotFound';
+import NotFound from './components/NotFound/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Offline } from 'react-detect-offline';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
-
 function App() {
   const [userData, setUserData] = useState(null);
 
@@ -53,21 +52,31 @@ function App() {
       children: [
         { index: true, element: <Register /> },
        
-        { path: 'login', element: <Login saveUserData={saveUserData} /> },
-        { path: 'tasks', element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
-        { path: 'categories', element: <ProtectedRoute userData={userData}><CategoryList /></ProtectedRoute> },
-        { path: 'create-task', element: <ProtectedRoute userData={userData}><CreateTask /></ProtectedRoute> },
+        // { path: 'login', element: <Login saveUserData={saveUserData} /> },
+        // { path: 'tasks', element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
         // { path: 'categories', element: <ProtectedRoute userData={userData}><CategoryList /></ProtectedRoute> },
+        // { path: 'create-task', element: <ProtectedRoute userData={userData}><CreateTask /></ProtectedRoute> },
+       
+        { path: 'login', element: <Login saveUserData={saveUserData} /> },
+        { path: 'tasks', element: <Home /> },
+        { path: 'categories', element:<CategoryList /> },
+        { path: 'create-task', element:<CreateTask /> },
+        // { path: 'categories', element:<CategoryList /> },
+        { path: 'edit-task/:id', element: <EditTask /> }, 
       ]
     },
-    // { path: '*', element: <NotFound /> }
+    { path: '*', element: <NotFound /> }
   ]);
 
   return (
     <>
-      <Offline><div className='offline'>You are offline</div></Offline>
-      <RouterProvider router={routers} />
-    </>
+    <div className="App">
+      <ToastContainer />
+    </div>
+    <Offline><div className='offline'>You are offline</div></Offline>
+    <RouterProvider router={routers} />
+  </>
+
   );
 }
 

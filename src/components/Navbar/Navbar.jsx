@@ -7,7 +7,7 @@ export default function Navbar({ userData, logOut }) {
       <div className="left-nav d-flex align-items-center">
         <h1 className='m-0 pe-3 h4'>
           <Link className='text-decoration-none' to='/'>
-            <img src={'/INVADE_logo.png'} alt="Invade Tasks  Logo" style={{ height: '40px', marginRight: '10px' }} />
+            <img className='inavde-logo' src={'/INVADE_logo.png'} alt="Invade Tasks  Logo" style={{ height: '40px', marginRight: '10px' }} />
           </Link>
         </h1>
       </div>
