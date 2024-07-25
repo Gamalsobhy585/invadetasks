@@ -8,14 +8,25 @@ export default function CategoryList() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/categories');
+        const token = localStorage.getItem('userToken');
+
+        const response = await axios.get('http://localhost:8000/api/categories', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        // Set the categories data
         setCategories(response.data.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
+
     fetchCategories();
   }, []);
+
+
 
   return (
     <>

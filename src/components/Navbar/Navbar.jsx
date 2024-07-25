@@ -33,7 +33,7 @@ export default function Navbar({ userData, logOut }) {
               <Link className='text-decoration-none link' to='/login'>Login</Link>
             </li>
             <li className='px-2'>
-              <Link className='text-decoration-none link' to='/register'>Register</Link>
+              <Link className='text-decoration-none link' to='/'>Register</Link>
             </li>
           </ul>
         )}

@@ -9,11 +9,20 @@ export default function Register() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
+    password_confirmation: "",
   });
+
+  function saveUserDataToLocalStorage() {
+    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    storedUsers.push({ name: user.name, email: user.email });
+    localStorage.setItem("users", JSON.stringify(storedUsers));
+  }
 
   function getUSerData(eventinfo) {
     let myUser = { ...user };
@@ -24,7 +33,7 @@ export default function Register() {
   async function sendingRegisterDataToApi() {
     try {
       let { data } = await axios.post(`http://localhost:8000/api/register`, user);
-      if (data.message === "Registration successful") {
+      if (data.message === "Registration successful") {  // Matching the success message
         setIsLoading(false);
         navigate("/login");
       } else {
@@ -35,12 +44,6 @@ export default function Register() {
       setIsLoading(false);
       setError("Something went wrong. Please try again later.");
     }
-  }
-
-  function saveUserDataToLocalStorage() {
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    storedUsers.push({ name: user.name, email: user.email });
-    localStorage.setItem("users", JSON.stringify(storedUsers));
   }
 
   function submitRegisterForm(e) {
@@ -72,18 +75,23 @@ export default function Register() {
       password: Joi.string().pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/).required().messages({
         'string.pattern.base': 'Password must be at least 8 characters long and contain at least one letter and one number. Example: Pass1234',
       }),
+      password_confirmation: Joi.string().valid(Joi.ref('password')).required().messages({
+        'any.only': 'Password confirmation does not match password.',
+      }),
     });
-  
+
     return schema.validate(user, { abortEarly: false });
   }
+
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Register To InvadeTasks</title>
       </Helmet>
-
-      <form className="m-3 p-4" onSubmit={submitRegisterForm} action="">
+      <div className="card-container">
+      <img  src={'/INVADE_logo.png'} alt="Logo" />
+      <form className="m-3 p-4 " onSubmit={submitRegisterForm} action="">
         <label htmlFor="name">UserName</label>
         <input onChange={getUSerData} type="text" className="form-control my-input bg-white my-2" name="name" id="name" />
         {fieldErrors.name && <div className="alert alert-danger text-black">{fieldErrors.name}</div>}
@@ -93,16 +101,44 @@ export default function Register() {
         {fieldErrors.email && <div className="alert alert-danger text-black">{fieldErrors.email}</div>}
 
         <label htmlFor="password">Password</label>
-        <input onChange={getUSerData} type="password" className="form-control my-input bg-white my-2" name="password" id="password" />
+        <div className="password-container">
+          <input
+            onChange={getUSerData}
+            type={showPassword ? "text" : "password"}
+            className="form-control my-input bg-white my-2"
+            name="password"
+            id="password"
+          />
+          <i
+            className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'} password-toggle-icon`}
+            onClick={() => setShowPassword(!showPassword)}
+          ></i>
+        </div>
         {fieldErrors.password && <div className="alert alert-danger text-black">{fieldErrors.password}</div>}
 
-    
-        <button className="btn reg-button" disabled={isLoading}>
+        <label htmlFor="password_confirmation">Confirm Password</label>
+        <div className="password-container">
+          <input
+            onChange={getUSerData}
+            type={showPasswordConfirmation ? "text" : "password"}
+            className="form-control my-input bg-white my-2"
+            name="password_confirmation"
+            id="password_confirmation"
+          />
+          <i
+            className={`fa ${showPasswordConfirmation ? 'fa-eye' : 'fa-eye-slash'} password-toggle-icon`}
+            onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+          ></i>
+        </div>
+        {fieldErrors.password_confirmation && <div className="alert alert-danger text-black">{fieldErrors.password_confirmation}</div>}
+
+        <button className="btn w-100 reg-button" disabled={isLoading}>
           {isLoading ? <i className="fas fa-spinner fa-spin"></i> : "Register"}
         </button>
 
         {error && <p className="text-danger mt-2">{error}</p>}
       </form>
+      </div>
     </>
   );
 }

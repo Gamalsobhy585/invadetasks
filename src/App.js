@@ -4,6 +4,7 @@ import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import Layout from './components/Layout/Layout';
 import Home from './components/Home/Home';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateTask from './components/CreateTask/CreateTask';
@@ -15,6 +16,8 @@ import { Offline } from 'react-detect-offline';
 import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
+
+
 function App() {
   const [userData, setUserData] = useState(null);
 
@@ -45,24 +48,19 @@ function App() {
     }
   };
 
+
+
   const routers = createBrowserRouter([
     {
       path: '/',
       element: <Layout setUserData={setUserData} userData={userData} logOut={logOut} />,
       children: [
-        { index: true, element: <Register /> },
-       
-        // { path: 'login', element: <Login saveUserData={saveUserData} /> },
-        // { path: 'tasks', element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
-        // { path: 'categories', element: <ProtectedRoute userData={userData}><CategoryList /></ProtectedRoute> },
-        // { path: 'create-task', element: <ProtectedRoute userData={userData}><CreateTask /></ProtectedRoute> },
-       
+        { index: true, element:<Register/> },
         { path: 'login', element: <Login saveUserData={saveUserData} /> },
-        { path: 'tasks', element: <Home /> },
-        { path: 'categories', element:<CategoryList /> },
-        { path: 'create-task', element:<CreateTask /> },
-        // { path: 'categories', element:<CategoryList /> },
-        { path: 'edit-task/:id', element: <EditTask /> }, 
+        { path: 'tasks', element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
+        { path: 'categories', element: <ProtectedRoute userData={userData}><CategoryList /></ProtectedRoute> },
+        { path: 'create-task', element: <ProtectedRoute userData={userData}><CreateTask /></ProtectedRoute> },
+        { path: 'edit-task/:id', element: <ProtectedRoute userData={userData}><EditTask /></ProtectedRoute> },
       ]
     },
     { path: '*', element: <NotFound /> }
@@ -70,13 +68,12 @@ function App() {
 
   return (
     <>
-    <div className="App">
-      <ToastContainer />
-    </div>
-    <Offline><div className='offline'>You are offline</div></Offline>
-    <RouterProvider router={routers} />
-  </>
-
+      <div className="App">
+        <ToastContainer />
+      </div>
+      <Offline><div className='offline'>You are offline</div></Offline>
+      <RouterProvider router={routers} />
+    </>
   );
 }
 

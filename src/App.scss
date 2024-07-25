@@ -189,6 +189,77 @@ select {
   color: var(--neutral-dark-gray);
 }
 
+
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--accent-pink);
+}
+
+.card-container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.card-container img {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+.card-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.card-container label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  color: #666666;
+}
+
+
+
+
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 576px) {
   .table {
     font-size: 0.8rem;

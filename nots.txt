@@ -208,3 +208,51 @@ export default function Home() {
         </>
     );
 }
+
+
+
+
+async function sendingRegisterDataToApi() {
+  try {
+    let { data } = await axios.post(`http://localhost:8000/api/register`, user);
+    if (data.message === "Registration successful") {
+      Swal.fire({
+        title: 'Success!',
+        text: 'You have successfully registered',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        setIsLoading(false);
+        navigate("/login");
+      });
+    } else {
+      setIsLoading(false);
+      setError(data.message);
+    }
+  } catch (error) {
+    setIsLoading(false);
+    setError("Something went wrong. Please try again later.");
+  }
+}
+
+
+
+
+function submitRegisterForm(e) {
+  e.preventDefault();
+  setIsLoading(true);
+
+  let validation = validateRegisterForm();
+  if (validation.error) {
+    setIsLoading(false);
+    let errors = {};
+    validation.error.details.forEach((error) => {
+      errors[error.path[0]] = error.message;
+    });
+    setFieldErrors(errors);
+  } else {
+    sendingRegisterDataToApi().then(() => {
+      saveUserDataToLocalStorage();
+    });
+  }
+}

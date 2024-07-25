@@ -28,7 +28,7 @@ export default function Login({ saveUserData }) {
       if (data.status === 200) {
         setIsLoading(false);
         localStorage.setItem('userToken', data.token);
-        navigate("/home");
+        navigate("/tasks");
       } else if (data.status === 422) {
         setIsLoading(false);
         setError("Credentials not correct");
@@ -77,7 +77,8 @@ export default function Login({ saveUserData }) {
         <meta charSet="utf-8" />
         <title>Login To InvadeTasks</title>
       </Helmet>
-
+      <div className="card-container">
+      <img  src={'/INVADE_logo.png'} alt="Logo" />
       <form className="mt-3 p-4" onSubmit={submitLoginForm} action="">
         <label htmlFor="email">Email</label>
         <input
@@ -101,12 +102,14 @@ export default function Login({ saveUserData }) {
         />
         {fieldErrors.password && <div className="alert alert-danger text-white">{fieldErrors.password}</div>}
 
-        <button className='btn loginbtn' disabled={isLoading}>
+        <button className='btn w-100 loginbtn' disabled={isLoading}>
           {isLoading ? <i className='fas fa-spinner fa-spin'></i> : 'Login'}
         </button>
 
         {error.length > 0 && <div className="alert alert-danger text-white my-2">{error}</div>}
       </form>
+      </div>
+
     </>
   );
 }
