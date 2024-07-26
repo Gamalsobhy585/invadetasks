@@ -24,7 +24,12 @@ export default function CreateTask() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/categories');
+      const token = localStorage.getItem('userToken');
+      const response = await axios.get('http://localhost:8000/api/categories', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       console.log('Fetched categories:', response.data.data);
       setCategories(response.data.data);
     } catch (error) {
@@ -33,7 +38,7 @@ export default function CreateTask() {
   };
 
   const schema = Joi.object({
-    user_id: Joi.number().required(), // Ensuring it's a number
+    user_id: Joi.number().required(),
     title: Joi.string().min(3).max(255).required(),
     description: Joi.string().min(5).max(255).allow(''),
     status: Joi.string().valid('pending', 'completed').required(),
@@ -63,10 +68,11 @@ export default function CreateTask() {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem('userToken');
       const response = await axios.post('http://localhost:8000/api/tasks', task, {
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Authorization': `Bearer ${token}`
+        }
       });
       console.log('Response:', response.data);
       navigate('/tasks');

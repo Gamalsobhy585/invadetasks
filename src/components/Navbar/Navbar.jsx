@@ -24,7 +24,7 @@ export default function Navbar({ userData, logOut }) {
               <Link className='text-decoration-none link' to='/create-task'>Create a New Task</Link>
             </li>
             <li className='px-2 logout-button cursor-pointer' onClick={logOut}>
-              <span className='link'>Logout</span>
+              <span className='link logout-button  cursor-pointer'>Logout</span>
             </li>
           </ul>
         ) : (

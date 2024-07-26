@@ -22,7 +22,12 @@ export default function EditTask() {
 
     const fetchTask = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/tasks/${id}`);
+            const token = localStorage.getItem('userToken');
+            const response = await axios.get(`http://localhost:8000/api/tasks/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             setTask(response.data.data);
         } catch (error) {
             console.error('Error fetching task:', error);
@@ -31,7 +36,12 @@ export default function EditTask() {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/categories');
+            const token = localStorage.getItem('userToken');
+            const response = await axios.get('http://localhost:8000/api/categories', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             setCategories(response.data.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -46,7 +56,12 @@ export default function EditTask() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/api/tasks/${id}`, task);
+            const token = localStorage.getItem('userToken');
+            await axios.put(`http://localhost:8000/api/tasks/${id}`, task, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             toast.success('Task updated successfully');
             navigate('/tasks');
         } catch (error) {
@@ -54,7 +69,6 @@ export default function EditTask() {
             toast.error('Error updating task');
         }
     };
-
     return (
         <div className="container">
             <h2>Edit Task</h2>

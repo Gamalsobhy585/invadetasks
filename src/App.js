@@ -36,11 +36,17 @@ function App() {
 
   const logOut = async () => {
     try {
+      const token = localStorage.getItem('userToken');
+      if (!token) {
+        throw new Error('No token found');
+      }
+
       await axios.post('http://localhost:8000/api/logout', {}, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`
+          Authorization: `Bearer ${token}`
         }
       });
+
       localStorage.removeItem('userToken');
       setUserData(null);
     } catch (error) {

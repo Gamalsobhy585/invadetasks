@@ -20,7 +20,12 @@ export default function Home() {
 
     const fetchTasks = async (url = 'http://localhost:8000/api/tasks') => {
         try {
-            const response = await axios.get(url);
+            const token = localStorage.getItem('userToken');
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             setTasks(response.data.data);
             setFilteredTasks(response.data.data);
             setPaginationData(response.data.meta);
@@ -81,7 +86,12 @@ export default function Home() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/api/tasks/${id}`);
+            const token = localStorage.getItem('userToken');
+            await axios.delete(`http://localhost:8000/api/tasks/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             fetchTasks();
             toast(
                 <div>
@@ -108,10 +118,15 @@ export default function Home() {
             toast.error('Error deleting task');
         }
     };
-    
+
     const handleRestore = async (id) => {
         try {
-            await axios.post(`http://localhost:8000/api/tasks/${id}/restore`);
+            const token = localStorage.getItem('userToken');
+            await axios.post(`http://localhost:8000/api/tasks/${id}/restore`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             toast.success(
                 <div className='task-deleted'>Task restored successfully</div>,
                 {
