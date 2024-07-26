@@ -9,6 +9,7 @@ export default function Login({ saveUserData }) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -69,7 +70,6 @@ export default function Login({ saveUserData }) {
   
     return schema.validate(user, { abortEarly: false });
   }
-  
 
   return (
     <>
@@ -78,38 +78,43 @@ export default function Login({ saveUserData }) {
         <title>Login To InvadeTasks</title>
       </Helmet>
       <div className="card-container">
-      <img  src={'/INVADE_logo.png'} alt="Logo" />
-      <form className="mt-3 p-4" onSubmit={submitLoginForm} action="">
-        <label htmlFor="email">Email</label>
-        <input
-          onChange={getUserData}
-          type="email"
-          className='form-control bg-white my-input my-2'
-          name='email'
-          id='email'
-          value={user.email}
-        />
-        {fieldErrors.email && <div className="alert alert-danger text-white">{fieldErrors.email}</div>}
+        <img src={'/INVADE_logo.png'} alt="Logo" />
+        <form className="mt-3 p-4" onSubmit={submitLoginForm} action="">
+          <label htmlFor="email">Email</label>
+          <input
+            onChange={getUserData}
+            type="email"
+            className='form-control bg-white my-input my-2'
+            name='email'
+            id='email'
+            value={user.email}
+          />
+          {fieldErrors.email && <div className="alert alert-danger text-white">{fieldErrors.email}</div>}
 
-        <label htmlFor="password">Password</label>
-        <input
-          onChange={getUserData}
-          type="password"
-          className='form-control bg-white my-input my-2'
-          name='password'
-          id='password'
-          value={user.password}
-        />
-        {fieldErrors.password && <div className="alert alert-danger text-white">{fieldErrors.password}</div>}
+          <label htmlFor="password">Password</label>
+          <div className="password-container">
+            <input
+              onChange={getUserData}
+              type={showPassword ? "text" : "password"}
+              className="form-control my-input bg-white my-2"
+              name="password"
+              id="password"
+              value={user.password}
+            />
+            <i
+              className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'} password-toggle-icon`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+          </div>
+          {fieldErrors.password && <div className="alert alert-danger text-white">{fieldErrors.password}</div>}
 
-        <button className='btn w-100 loginbtn' disabled={isLoading}>
-          {isLoading ? <i className='fas fa-spinner fa-spin'></i> : 'Login'}
-        </button>
+          <button className='btn w-100 loginbtn' disabled={isLoading}>
+            {isLoading ? <i className='fas fa-spinner fa-spin'></i> : 'Login'}
+          </button>
 
-        {error.length > 0 && <div className="alert alert-danger text-white my-2">{error}</div>}
-      </form>
+          {error.length > 0 && <div className="alert alert-danger text-white my-2">{error}</div>}
+        </form>
       </div>
-
     </>
   );
 }
