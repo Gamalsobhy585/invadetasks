@@ -5,6 +5,7 @@ import Login from './components/Login/Login';
 import Layout from './components/Layout/Layout';
 import Home from './components/Home/Home';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import PublicRoute from './components/PublicRoute/PublicRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateTask from './components/CreateTask/CreateTask';
@@ -61,8 +62,8 @@ function App() {
       path: '/',
       element: <Layout setUserData={setUserData} userData={userData} logOut={logOut} />,
       children: [
-        { index: true, element:<Register/> },
-        { path: 'login', element: <Login saveUserData={saveUserData} /> },
+        { index: true, element: <PublicRoute userData={userData}><Register /></PublicRoute> },
+        { path: 'login', element: <PublicRoute userData={userData}><Login saveUserData={saveUserData} /></PublicRoute> },
         { path: 'tasks', element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
         { path: 'categories', element: <ProtectedRoute userData={userData}><CategoryList /></ProtectedRoute> },
         { path: 'create-task', element: <ProtectedRoute userData={userData}><CreateTask /></ProtectedRoute> },
