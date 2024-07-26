@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import { Helmet } from 'react-helmet';
 export default function EditTask() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -62,14 +62,30 @@ export default function EditTask() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            toast.success('Task updated successfully');
-            navigate('/tasks');
+            toast.success('Task updated successfully', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: false,
+                style: {
+                    background: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+                    color: 'white'
+                }
+            });            navigate('/tasks');
         } catch (error) {
             console.error('Error updating task:', error);
             toast.error('Error updating task');
         }
     };
     return (
+        <>
+         <Helmet>
+                <meta charSet="utf-8" />
+                <title>Edit Task</title>
+                <link rel="shortcut icon" href="./INVADE_logo.png" type="image/x-icon" />
+            </Helmet>
         <div className="container">
             <h2>Edit Task</h2>
             <form onSubmit={handleSubmit}>
@@ -101,8 +117,9 @@ export default function EditTask() {
                         ))}
                     </select>
                 </div>
-                <button type="submit" className="btn btn-primary">Update Task</button>
+                <button type="submit" className="btn btn-edit">Update Task</button>
             </form>
         </div>
+        </>
     );
 }

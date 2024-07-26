@@ -156,8 +156,9 @@ export default function Home() {
                 <meta charSet="utf-8" />
                 <title>Tasks</title>
             </Helmet>
-            <div className="container my-5">
-                <div className="d-flex justify-content-end mb-3">
+            <div className="container  my-5">
+                <div className="row mb-3">
+                <div className="col-md-3 col-6">
                     <input
                         type="text"
                         className="form-control me-2"
@@ -165,6 +166,8 @@ export default function Home() {
                         value={searchTitle}
                         onChange={handleSearchTitle}
                     />
+                    </div>
+                    <div className="col-md-3 col-6">
                     <input
                         type="text"
                         className="form-control me-2"
@@ -172,13 +175,18 @@ export default function Home() {
                         value={searchDescription}
                         onChange={handleSearchDescription}
                     />
-                    <input
+</div>
+<div className="col-md-3 col-6">
+<input
                         type="date"
                         className="form-control me-2"
                         value={dueDate}
                         onChange={handleDueDateChange}
                     />
-                    <select
+</div>
+
+<div className="col-md-3 col-6">
+<select
                         className="form-control"
                         value={status}
                         onChange={handleStatusChange}
@@ -187,7 +195,13 @@ export default function Home() {
                         <option value="pending">Pending</option>
                         <option value="completed">Completed</option>
                     </select>
+</div>
+
+                
+                  
+                
                 </div>
+         
                 <div className="table-responsive mb-3 table-active">
                     <table className="table">
                         <thead id="table-header" className="table-header">
@@ -209,18 +223,18 @@ export default function Home() {
                                     <td>{task.due_date}</td>
                                     <td>{task.category ? task.category.name : 'No Category'}</td>
                                     <td>
-                                        <Link to={`/edit-task/${task.id}`} className="btn btn-warning me-2">
+                                        <Link to={`/edit-task/${task.id}`} className="btn btn-edit me-2">
                                             Edit
                                         </Link>
                                         <button
                                             onClick={() => handleDelete(task.id)}
-                                            className="btn btn-danger me-2"
+                                            className="btn btn-delete me-2"
                                         >
                                             Delete
                                         </button>
                                         <button
                                             onClick={() => handleRestore(task.id)}
-                                            className="btn btn-success"
+                                            className="btn btn-restore"
                                         >
                                             Restore
                                         </button>
